@@ -1,0 +1,2 @@
+login STEAM_ACCOUNT_HERE(Must own DAYZ)
+workshop_status 221100
