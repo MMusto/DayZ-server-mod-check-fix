@@ -1,6 +1,6 @@
 import os
 import subprocess
-STEAM_USER_NAME = 'STEAM_USER_Here'
+STEAM_USER_NAME = 'STEAM_USER_HERE'
 MODLIST_FILE_LOCATION = 'C:\Modlist.txt'          
 SCRIPT_FILE_LOCATION = 'C:\steamcmd\script.txt' 
 update_ids = []
@@ -16,7 +16,7 @@ for line in result.stdout.decode("utf-8").split('\n'):
         if line[0] == '-':
             if 'updated' in line and 'required(' in line:
                 update_ids.append(line[2].strip())
-                
+
 if os.path.exists(SCRIPT_FILE_LOCATION):
     os.remove(SCRIPT_FILE_LOCATION)  
     
@@ -26,14 +26,14 @@ with open(SCRIPT_FILE_LOCATION, 'w+') as new_runscipt:
         for line in mods.readlines():
             if len(line.strip()) > 0:
                 mod_id, mod_name = line.split(',')
+                print(mod_id, mod_name)
                 if mod_id in update_ids:
-                    print("[!] UPDATE REQUIRED {}".format(mod_name))
-                    mods_to_update.append(mod_id)
-                
+                    print(f"[!] UPDATE REQUIRED FOR : {mod_name}")
+                    mods_to_update.append(mod_id)                
     if mods_to_update:
-        new_runscipt.write("login {}\n".format(STEAM_USER_NAME))
+        new_runscipt.write(f"login {STEAM_USER_NAME}\n")
         for mod_id in mods_to_update:
-            new_runscipt.write("workshop_download_item 221100 {}\n".format(mod_id))
-        os.system('C:\steamcmd\steamcmd.exe +runscript script.txt +quit')
+            new_runscipt.write(f"workshop_download_item 221100 {mod_id}\n")
     else:
-        print("[INFO] No mod updates required!")
+        print("[INFO] No mod updates found!")
+os.system('pause')
